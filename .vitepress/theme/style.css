@@ -176,43 +176,54 @@ html {
 }
 
 /**
- * 4. 導覽列雙狀態控制 (Navigation Bar Scroll States - Standard Native Hook)
+ * 4. 導覽列純淨毛玻璃漸變效果 (Pure Glassmorphism & Smooth Transition)
  * -------------------------------------------------------------------------- */
 
-/* 消除底部分隔線 */
-.VPNav {
-  --vp-c-gutter: transparent;
-}
-
+/* 1. 徹底消除全站導覽列所有邊框、底線與分隔符號 */
+.VPNav,
 .VPNavBar,
 .VPNavBar .wrapper,
-.VPNavBar .container {
+.VPNavBar .container,
+.VPNavBar .title,
+.VPNavBar .content {
+  border: none !important;
   border-bottom: none !important;
+  box-shadow: none !important;
+  --vp-c-gutter: transparent !important;
 }
 
 .VPNavBar .divider {
   display: none !important;
 }
 
-/* 狀態 A：頂部未滾動時 - 保持完全透明 */
-.VPNavBar.top {
+/* 2. 導覽列本體：永遠保持透明底色，並為毛玻璃添加平滑過渡 */
+.VPNavBar {
   background-color: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: transparent !important;
+  transition: 
+    backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    -webkit-backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* 狀態 B：向下滾動時 - 使用標準 CSS 屬性注入 */
+/* 確保所有子元素與容器都徹底透明，不遮擋底層毛玻璃效果 */
+.VPNavBar .wrapper,
+.VPNavBar .container,
+.VPNavBar .VPNavBarTitle,
+.VPNavBar .content-body {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 3. 狀態 A：頁面處於頂部（未滾動） -> 完全透明、無模糊、無濾鏡 */
+.VPNavBar.top {
+  backdrop-filter: blur(0px) !important;
+  -webkit-backdrop-filter: blur(0px) !important;
+}
+
+/* 4. 狀態 B：向下滾動時 -> 依然零背景色，僅讓底層內容呈現高斯模糊與飽和度提亮 */
 .VPNavBar:not(.top) {
-  background-color: var(--vp-nav-bg-color) !important;
   backdrop-filter: blur(16px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-/* 確保內部層級不遮擋濾鏡 */
-.VPNavBar .wrapper,
-.VPNavBar .container {
-  background: transparent !important;
 }
 
 /**
