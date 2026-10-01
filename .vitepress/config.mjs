@@ -10,6 +10,13 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/favicon.png' }]
   ],
 
+  // 🌟 底層 Vite 配置：鎖定 CSS 打包標準，防止編譯生產版本時吞掉 WebKit 前綴與毛玻璃 (backdrop-filter)
+  vite: {
+    build: {
+      cssTarget: 'chrome80'
+    }
+  },
+
   themeConfig: {
     // 頂部導覽列 Logo (讀取 public/logo.png)
     logo: '/logo.png',
