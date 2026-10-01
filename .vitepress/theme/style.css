@@ -176,10 +176,10 @@ html {
 }
 
 /**
- * 4. 導覽列純淨毛玻璃漸變效果 (Pure Glassmorphism & Smooth Transition)
+ * 4. 導覽列純淨毛玻璃效果 (無色、無線、抗打包壓縮版)
  * -------------------------------------------------------------------------- */
 
-/* 1. 徹底消除全站導覽列所有邊框、底線與分隔符號 */
+/* 1. 全域清除導覽列各層的所有邊框與分割線 */
 .VPNav,
 .VPNavBar,
 .VPNavBar .wrapper,
@@ -196,16 +196,8 @@ html {
   display: none !important;
 }
 
-/* 2. 導覽列本體：永遠保持透明底色，並為毛玻璃添加平滑過渡 */
-.VPNavBar {
-  background-color: transparent !important;
-  background: transparent !important;
-  transition: 
-    backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-    -webkit-backdrop-filter 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* 確保所有子元素與容器都徹底透明，不遮擋底層毛玻璃效果 */
+/* 2. 徹底清空所有內外子層的預設背景色 */
+.VPNav,
 .VPNavBar .wrapper,
 .VPNavBar .container,
 .VPNavBar .VPNavBarTitle,
@@ -214,16 +206,31 @@ html {
   background-color: transparent !important;
 }
 
-/* 3. 狀態 A：頁面處於頂部（未滾動） -> 完全透明、無模糊、無濾鏡 */
-.VPNavBar.top {
-  backdrop-filter: blur(0px) !important;
-  -webkit-backdrop-filter: blur(0px) !important;
+/* 3. 核心：導覽列本體 */
+.VPNavBar {
+  /* 關鍵 1：千萬不要寫純 transparent，用 0.001 的透明度強制瀏覽器維持像素合成通道 */
+  background-color: rgba(255, 255, 255, 0.001) !important;
+  
+  /* 關鍵 2：強制開啟 GPU 合成層，避免生產構建提取後因沒有獨立圖層而被瀏覽器直接跳過取樣 */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  
+  /* 關鍵 3：毛玻璃過渡動畫 */
+  transition: 
+    -webkit-backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* 4. 狀態 B：向下滾動時 -> 依然零背景色，僅讓底層內容呈現高斯模糊與飽和度提亮 */
+/* 狀態 A：頂部未滾動 -> 完全零模糊、零背景、零邊框 */
+.VPNavBar.top {
+  -webkit-backdrop-filter: blur(0px) !important;
+  backdrop-filter: blur(0px) !important;
+}
+
+/* 狀態 B：向下滾動時 -> 純淨毛玻璃，穿透模糊下方所有圖文 */
 .VPNavBar:not(.top) {
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
 }
 
 /**
