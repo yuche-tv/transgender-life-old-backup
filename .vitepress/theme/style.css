@@ -75,8 +75,9 @@ html {
   --vp-c-danger-3: #fb7185;
   --vp-c-danger-soft: rgba(244, 63, 94, 0.12);
 
-  /* 亮色模式：滾動後的磨砂半透明背景色 */
-  --vp-nav-bg-color: rgba(255, 255, 255, 0.72);
+  /* 🌟 亮色模式：滾動後的磨砂半透明背景色與官方濾鏡變數 */
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.75);
+  --vp-nav-backdrop-filter: saturate(180%) blur(16px);
 }
 
 .dark {
@@ -85,17 +86,18 @@ html {
   --vp-c-danger-3: #fda4af;
   --vp-c-danger-soft: rgba(244, 63, 94, 0.18);
 
-  /* 暗黑模式：滾動後的磨砂半透明背景色 */
-  --vp-nav-bg-color: rgba(27, 27, 31, 0.75);
+  /* 🌟 暗黑模式：滾動後的磨砂半透明背景色與官方濾鏡變數 */
+  --vp-nav-bg-color: rgba(15, 23, 42, 0.78);
+  --vp-nav-backdrop-filter: saturate(180%) blur(16px);
 }
 
 /**
- * 🌟 1.1 純粹一體化 Danger 警示紅底白字樣式 (無左側多餘裝飾條)
+ * 1.1 純粹一體化 Danger 警示紅底白字樣式 (無左側多餘裝飾條)
  * -------------------------------------------------------------------------- */
 .vp-doc .custom-block.danger {
   background-color: #e11d48 !important; /* 警示紅底 */
   border: 1px solid #be123c !important; /* 四周均勻邊框 */
-  color: #ffffff !important; /* 預設純白字體 */
+  color: #ffffff !important;           /* 預設純白字體 */
   border-radius: 8px;
   box-shadow: 0 4px 14px -2px rgba(225, 29, 72, 0.35);
 }
@@ -174,36 +176,58 @@ html {
 }
 
 /**
- * 4. 導覽列雙狀態控制 (Navigation Bar Scroll States)
+ * 4. 導覽列雙狀態控制 (Navigation Bar Glassmorphism - Precision Fix)
  * -------------------------------------------------------------------------- */
 
-/* 消除底部分隔線與邊框變數 */
+/* 1. 消除預設格線與底部分隔條 */
 .VPNav {
   --vp-c-gutter: transparent;
+  background: transparent !important;
 }
 
-.VPNavBar,
-.VPNavBar .wrapper,
-.VPNavBar .container {
-  border-bottom: none;
+.VPNavBar {
+  border-bottom: none !important;
+  background: transparent !important;
 }
 
 .VPNavBar .divider {
-  display: none;
+  display: none !important;
 }
 
-/* 狀態 A：最頂部未滾動狀態（原生 .top）- 完全透明且無毛玻璃 */
-.VPNavBar.top {
-  background-color: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+/* 2. 狀態 A：最頂部未滾動狀態（.top）- 全透明，無任何濾鏡與背景 */
+.VPNavBar.top,
+.VPNavBar.top .wrapper,
+.VPNavBar.top .container {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
 }
 
-/* 狀態 B：向下滾動狀態（離開頂部時）- 啟用磨砂毛玻璃效果 */
-.VPNavBar:not(.top) {
-  background-color: var(--vp-nav-bg-color);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* 3. 狀態 B：向下滾動時（:not(.top)）- 僅在 .wrapper 單層啟用真正的磨砂毛玻璃 */
+.VPNavBar:not(.top) .wrapper {
+  background-color: rgba(255, 255, 255, 0.65) !important; /* 亮色半透光底色 */
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(224, 242, 254, 0.5) !important; /* 精緻下邊緣高光條 */
+}
+
+/* 暗黑模式下的毛玻璃質調 */
+.dark .VPNavBar:not(.top) .wrapper {
+  background-color: rgba(15, 23, 42, 0.7) !important; /* 暗黑深藍半透底色，絕不死黑 */
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4) !important;
+}
+
+/* 確保外層與其他子元素不會重複疊加背景色 */
+.VPNavBar:not(.top),
+.VPNavBar:not(.top) .container {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /**
@@ -482,7 +506,7 @@ html {
  * 10. 全域防文字選取與圖片防拖曳保護 (Content & Image Protection - Clean Standards)
  * -------------------------------------------------------------------------- */
 
-/* 1. 全域文章內文、標題、首頁與側邊欄禁止滑鼠框選反白 */
+/* 1. 全域文章內文、標題、首頁、導覽列、側邊欄以及頁尾禁止滑鼠框選反白 */
 .vp-doc,
 .VPHome,
 .VPNav,
@@ -518,7 +542,6 @@ textarea {
   user-select: text;
 }
 
-
 /**
  * 11. 文章圖片自適應小圖與燈箱效果 (Image Sizing & Medium-Zoom Lightbox)
  * -------------------------------------------------------------------------- */
@@ -527,7 +550,7 @@ textarea {
 .vp-doc :not(a) > img {
   display: block;
   margin: 20px auto;
-  max-width: 85%; /* 🌟 預設以 85% 比例顯示，避免超出螢幕 */
+  max-width: 85%; /* 預設以 85% 比例顯示，避免超出螢幕 */
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.15);
