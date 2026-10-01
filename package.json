@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "vitepress": "^2.0.0-alpha.19"
+  },
+  "scripts": {
+    "transgender:dev": "vitepress dev",
+    "transgender:build": "vitepress build",
+    "transgender:preview": "vitepress preview"
+  },
+  "dependencies": {
+    "medium-zoom": "^1.1.0"
+  }
+}

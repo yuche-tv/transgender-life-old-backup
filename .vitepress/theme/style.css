@@ -1,0 +1,563 @@
+/**
+ * Customize default theme styling by overriding CSS variables:
+ * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
+ */
+
+/**
+ * 0. 自訂極簡無圓角方形滾動條 (Custom Minimalist Scrollbar)
+ * -------------------------------------------------------------------------- */
+
+/* Firefox 規範相容 */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(150, 150, 150, 0.3) transparent;
+}
+
+.dark html {
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+/* WebKit 內核（Chrome, Safari, Edge）滾動條樣式 */
+::-webkit-scrollbar {
+  width: 6px; /* 極窄寬度，兼顧互動點擊 */
+  height: 6px;
+}
+
+/* 徹底移除滑動條背景槽位 */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 預設狀態：無圓角方形半透明灰色滑塊 */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.15);
+  border-radius: 0 !important;
+  transition: background-color 0.25s ease;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* 懸停至滾動條或抓取時：滑塊顯現加深 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.6);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(80, 80, 80, 0.8);
+}
+
+.dark ::-webkit-scrollbar-thumb:active {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+/**
+ * 1. 核心色彩與全域提示框變數 (Colors & Custom Block Variables)
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
+
+  --vp-c-brand-1: var(--vp-c-indigo-1);
+  --vp-c-brand-2: var(--vp-c-indigo-2);
+  --vp-c-brand-3: var(--vp-c-indigo-3);
+  --vp-c-brand-soft: var(--vp-c-indigo-soft);
+
+  --vp-c-danger-1: #e11d48;
+  --vp-c-danger-2: #f43f5e;
+  --vp-c-danger-3: #fb7185;
+  --vp-c-danger-soft: rgba(244, 63, 94, 0.12);
+
+  /* 亮色模式：滾動後的磨砂半透明背景色 */
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.72);
+}
+
+.dark {
+  --vp-c-danger-1: #f43f5e;
+  --vp-c-danger-2: #fb7185;
+  --vp-c-danger-3: #fda4af;
+  --vp-c-danger-soft: rgba(244, 63, 94, 0.18);
+
+  /* 暗黑模式：滾動後的磨砂半透明背景色 */
+  --vp-nav-bg-color: rgba(27, 27, 31, 0.75);
+}
+
+/**
+ * 🌟 1.1 純粹一體化 Danger 警示紅底白字樣式 (無左側多餘裝飾條)
+ * -------------------------------------------------------------------------- */
+.vp-doc .custom-block.danger {
+  background-color: #e11d48 !important; /* 警示紅底 */
+  border: 1px solid #be123c !important; /* 四周均勻邊框 */
+  color: #ffffff !important; /* 預設純白字體 */
+  border-radius: 8px;
+  box-shadow: 0 4px 14px -2px rgba(225, 29, 72, 0.35);
+}
+
+/* 暗黑模式下的 Danger 底色 */
+.dark .vp-doc .custom-block.danger {
+  background-color: #be123c !important;
+  border: 1px solid #9f1239 !important;
+  box-shadow: 0 4px 16px -2px rgba(190, 18, 60, 0.45);
+}
+
+/* 確保容器內部所有文字、標題與項目符號均為純白 */
+.vp-doc .custom-block.danger .custom-block-title,
+.vp-doc .custom-block.danger p,
+.vp-doc .custom-block.danger li,
+.vp-doc .custom-block.danger strong,
+.vp-doc .custom-block.danger em {
+  color: #ffffff !important;
+}
+
+.vp-doc .custom-block.danger .custom-block-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* 容器內的行內代碼塊適配 */
+.vp-doc .custom-block.danger code {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+/**
+ * 2. 按鈕組件 (Button Component)
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-text: var(--vp-c-white);
+  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-border: transparent;
+  --vp-button-brand-active-text: var(--vp-c-white);
+  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+}
+
+/**
+ * 3. 首頁 Hero 標題與光暈變數 (Hero Gradient Variables)
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    #bd34fe 30%,
+    #41d1ff
+  );
+
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #bd34fe 50%,
+    #47caff 50%
+  );
+  --vp-home-hero-image-filter: blur(30px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(36px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(42px);
+  }
+}
+
+/**
+ * 4. 導覽列雙狀態控制 (Navigation Bar Scroll States)
+ * -------------------------------------------------------------------------- */
+
+/* 消除底部分隔線與邊框變數 */
+.VPNav {
+  --vp-c-gutter: transparent;
+}
+
+.VPNavBar,
+.VPNavBar .wrapper,
+.VPNavBar .container {
+  border-bottom: none;
+}
+
+.VPNavBar .divider {
+  display: none;
+}
+
+/* 狀態 A：最頂部未滾動狀態（原生 .top）- 完全透明且無毛玻璃 */
+.VPNavBar.top {
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* 狀態 B：向下滾動狀態（離開頂部時）- 啟用磨砂毛玻璃效果 */
+.VPNavBar:not(.top) {
+  background-color: var(--vp-nav-bg-color);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/**
+ * 5. 首頁全域貫穿背景（涵蓋 Hero、Features 與頁尾 Footer）
+ * -------------------------------------------------------------------------- */
+
+/* 亮色模式：首頁整體外層容器背景 */
+.Layout:has(.VPHome) {
+  background-color: #f0f9ff;
+  background-image: 
+    linear-gradient(180deg, rgba(240, 249, 255, 0.85) 0%, rgba(224, 242, 254, 0.9) 40%, #e0f2fe 100%),
+    url('/hero-bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+/* 暗黑模式：首頁整體外層容器背景 */
+.dark .Layout:has(.VPHome) {
+  background-color: #0f172a;
+  background-image: 
+    linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 40%, #0b1120 100%),
+    url('/hero-bg.jpg');
+}
+
+/* 徹底將首頁內部所有子容器、內容區與頁尾設為透明 */
+.Layout:has(.VPHome) .VPContent,
+.Layout:has(.VPHome) .VPHome,
+.Layout:has(.VPHome) .VPHero,
+.Layout:has(.VPHome) .VPFeatures,
+.Layout:has(.VPHome) .VPFooter {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-top: none !important;
+}
+
+/**
+ * 6. 首頁 Hero 主圖與光暈位置/尺寸控制 (Hero Image & Halo Sizing)
+ * -------------------------------------------------------------------------- */
+
+/* 右側主視覺圖片基礎尺寸 */
+.VPHero .image-src {
+  max-height: 180px;
+  width: auto;
+}
+
+@media (min-width: 640px) {
+  .VPHero .image-src {
+    max-height: 220px;
+  }
+}
+
+@media (min-width: 960px) {
+  /* 桌面端微調放大 Logo 尺寸 */
+  .VPHero .image-src {
+    max-height: 290px;
+  }
+}
+
+/* 光暈直徑控制（桌面端維持 270px 不放大） */
+.VPHero .image-bg {
+  width: 190px;
+  height: 190px;
+}
+
+@media (min-width: 640px) {
+  .VPHero .image-bg {
+    width: 230px;
+    height: 230px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHero .image-bg {
+    width: 270px;
+    height: 270px;
+  }
+}
+
+/* 桌面端：圖片連同下方光暈一同向右移動 24px，並向上移動 16px */
+@media (min-width: 960px) {
+  .VPHero .image-container {
+    transform: translate(24px, -16px);
+  }
+}
+
+/**
+ * 7. 首頁順序重組與大字號標題樣式 (Reorder & Larger Section Header)
+ * -------------------------------------------------------------------------- */
+
+/* 將 VPHome 設為 Flex 縱向容器 */
+.VPHome {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 頂部看板排序第 0，緊湊收縮底部內距 */
+.VPHero {
+  order: 0;
+  padding-bottom: 16px !important;
+}
+
+/* 自訂標題排序第 1，大字號與清晰視覺層次 */
+.home-section-header {
+  order: 1;
+  text-align: center;
+  margin: 16px auto 8px;
+  max-width: 800px;
+  padding: 0 24px;
+}
+
+.home-section-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 8px;
+  border-top: none;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .home-section-header h2 {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 960px) {
+  .home-section-header h2 {
+    font-size: 38px;
+  }
+}
+
+.home-section-header p {
+  font-size: 17px;
+  color: var(--vp-c-text-2);
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+  .home-section-header p {
+    font-size: 18px;
+  }
+}
+
+/* 3 張卡片區塊排序第 2，收緊與標題的頂部間距 */
+.VPFeatures {
+  order: 2;
+  padding-top: 16px !important;
+}
+
+/**
+ * 8. 首頁 Features 特性卡片質感與懸停動效 (Clickable Features Cards)
+ * -------------------------------------------------------------------------- */
+
+/* 卡片基礎樣式與平滑動效 */
+.VPFeatures .VPFeature {
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(224, 242, 254, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+/* 亮色模式：卡片懸停效果 */
+.VPFeatures .VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 12px 24px -10px rgba(59, 130, 246, 0.25);
+}
+
+/* 暗黑模式：卡片質感與懸停效果 */
+.dark .VPFeatures .VPFeature {
+  background-color: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.dark .VPFeatures .VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: var(--vp-c-brand-2);
+  box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.35);
+}
+
+/**
+ * 9. 現代抽屜式內頁目錄美化 (Modern Table of Contents Panel for [[toc]])
+ * -------------------------------------------------------------------------- */
+
+/* TOC 最外層卡片容器 */
+.vp-doc .table-of-contents {
+  position: relative;
+  margin: 24px 0 32px;
+  padding: 16px 20px 20px;
+  border-radius: 12px;
+  background: rgba(240, 249, 255, 0.65);
+  border: 1px solid rgba(199, 210, 254, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px -4px rgba(99, 102, 241, 0.08);
+  transition: all 0.3s ease;
+}
+
+/* 暗黑模式下的卡片質感 */
+.dark .vp-doc .table-of-contents {
+  background: rgba(30, 41, 59, 0.45);
+  border-color: rgba(71, 85, 105, 0.4);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* 自動生成現代標題欄頂部徽章 */
+.vp-doc .table-of-contents::before {
+  content: '📑 文章摘要';
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--vp-c-brand-1);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(199, 210, 254, 0.6);
+}
+
+.dark .vp-doc .table-of-contents::before {
+  border-bottom-color: rgba(71, 85, 105, 0.5);
+}
+
+/* 清除傳統列表黑點與外邊距 */
+.vp-doc .table-of-contents ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 子章節嵌套縮排與左側細導引線 */
+.vp-doc .table-of-contents ul ul {
+  margin-left: 14px !important;
+  padding-left: 12px !important;
+  border-left: 1.5px solid rgba(199, 210, 254, 0.5);
+}
+
+.dark .vp-doc .table-of-contents ul ul {
+  border-left-color: rgba(71, 85, 105, 0.4);
+}
+
+/* 列表項目間距 */
+.vp-doc .table-of-contents li {
+  margin: 4px 0 !important;
+  padding: 0 !important;
+  line-height: 1.6;
+}
+
+/* 目錄超連結膠囊互動效果 */
+.vp-doc .table-of-contents a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  text-decoration: none !important;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* 懸停動效：微平移、亮色文字與淡底色 */
+.vp-doc .table-of-contents a:hover {
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
+  transform: translateX(4px);
+}
+
+/**
+ * 10. 全域防文字選取與圖片防拖曳保護 (Content & Image Protection - Clean Standards)
+ * -------------------------------------------------------------------------- */
+
+/* 1. 全域文章內文、標題、首頁與側邊欄禁止滑鼠框選反白 */
+.vp-doc,
+.VPHome,
+.VPNav,
+.VPSidebar,
+.VPFooter,
+.VPContent,
+.Layout {
+  -webkit-user-select: none; /* Safari / Chrome */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE / Edge */
+  user-select: none;         /* W3C 標準規範 */
+}
+
+/* 2. 禁止全站圖片被拖曳與長按儲存 (無語法警告標準寫法) */
+img {
+  -webkit-user-drag: none;     /* 適用於 Chrome / Edge / Safari 等 WebKit 核心 */
+  -webkit-touch-callout: none; /* iOS Safari 禁用長按彈出儲存圖片選單 */
+  user-select: none;           /* 禁止圖片被框選 */
+}
+
+/* 3. 例外保障：確保搜尋框與輸入框可正常點擊、輸入文字 */
+input,
+textarea {
+  -webkit-user-select: auto !important;
+  user-select: auto !important;
+}
+
+/* 4. 程式碼區塊保留選取與複製能力（若需徹底禁止程式碼複製，可刪除此段） */
+.vp-doc div[class*='language-'],
+.vp-doc pre,
+.vp-doc code {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+
+/**
+ * 11. 文章圖片自適應小圖與燈箱效果 (Image Sizing & Medium-Zoom Lightbox)
+ * -------------------------------------------------------------------------- */
+
+/* 1. 文章內圖片預設美化與縮圖限制 */
+.vp-doc :not(a) > img {
+  display: block;
+  margin: 20px auto;
+  max-width: 85%; /* 🌟 預設以 85% 比例顯示，避免超出螢幕 */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.15);
+  cursor: zoom-in; /* 游標變更為放大鏡 */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vp-doc :not(a) > img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -4px rgba(99, 102, 241, 0.25);
+}
+
+/* 2. 額外自訂尺寸輔助 Class (可直接寫在 Markdown 圖片上) */
+.vp-doc img.img-small {
+  max-width: 320px !important; /* 小縮圖：如印章、證書、頭像 */
+}
+
+.vp-doc img.img-medium {
+  max-width: 55% !important;   /* 中等縮圖 */
+}
+
+/* 3. 燈箱放大後的層級與動畫優化 */
+.medium-zoom-overlay {
+  z-index: 1000 !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.medium-zoom-image--opened {
+  z-index: 1001 !important;
+  border-radius: 6px;
+  cursor: zoom-out !important;
+}
